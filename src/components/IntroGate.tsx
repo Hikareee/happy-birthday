@@ -1,6 +1,6 @@
 import { useProgress } from '@react-three/drei'
 import { motion } from 'framer-motion'
-import { friend, photos } from '../config'
+import { friend } from '../config'
 import { useParty } from '../party-context'
 
 export function IntroGate() {
@@ -41,29 +41,22 @@ export function IntroGate() {
         {friend.name.toUpperCase()}
       </p>
 
-      <div className="stack-scene mb-8">
-        <div className="photo-stack">
-          {photos.map((photo, index) => (
-            <img
-              key={photo.id}
-              src={photo.src}
-              alt={photo.title}
-              style={{
-                transform: `translateZ(${-index * 28}px) rotateY(${-10 + index * 7}deg) translate(${index * 10}px, ${index * 8}px)`,
-                zIndex: photos.length - index,
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      <motion.img
+        src="/photos/meerkat.png"
+        alt="Party meerkat with a guitar"
+        className="mascot mb-8"
+        initial={{ opacity: 0, y: 24, rotate: -4 }}
+        animate={{ opacity: 1, y: 0, rotate: 0 }}
+        transition={{ delay: 0.35, duration: 0.6 }}
+      />
 
       <button
         type="button"
         disabled={!ready}
         onClick={enter}
-        className="shimmer pointer-events-auto rounded-full border border-amber-200/70 bg-gradient-to-r from-fuchsia-600 via-amber-300 to-cyan-300 px-8 py-3 text-sm font-semibold tracking-[0.28em] text-black uppercase shadow-[0_0_40px_rgba(255,215,106,0.45)] disabled:opacity-50"
+        className="shimmer pointer-events-auto rounded-full border border-amber-200/70 bg-gradient-to-r from-fuchsia-600 via-amber-300 to-cyan-300 px-10 py-3 text-sm font-semibold tracking-[0.28em] text-black uppercase shadow-[0_0_40px_rgba(255,215,106,0.45)] disabled:opacity-50"
       >
-        {ready ? 'Unwrap the gift' : `Loading ${Math.min(100, Math.round(progress))}%`}
+        {ready ? 'Unwrap' : `Loading ${Math.min(100, Math.round(progress))}%`}
       </button>
     </motion.div>
   )
