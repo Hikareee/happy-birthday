@@ -1,4 +1,4 @@
-import { friend, letter, photos } from '../config'
+import { friend, letter, photos, scrollMax } from '../config'
 import { useParty } from '../party-context'
 import { useScrollOffset } from '../scroll-store'
 
@@ -24,7 +24,7 @@ const copy: Section[] = [
     gold: false,
   })),
   {
-    kicker: '05 — Ritual',
+    kicker: '06 — Ritual',
     title: 'Make a wish',
     body: 'Click the cake. Blow the candles. Unlock fireworks. This year is already yours.',
     gold: true,
@@ -37,8 +37,8 @@ export function Overlay() {
   const { entered, wishMade, makeWish } = useParty()
   if (!entered) return null
 
-  const u = offset * 6
-  const letterActive = u > 5.35
+  const u = offset * scrollMax
+  const letterActive = u > scrollMax - 0.65
 
   return (
     <div className="pointer-events-none absolute inset-0 z-20">
@@ -46,7 +46,7 @@ export function Overlay() {
         const distance = Math.abs(u - index)
         const opacity = Math.max(0, 1 - distance * 1.65)
         if (opacity <= 0.03) return null
-        const left = index > 0 && index < 5
+        const left = index > 0 && !section.wish
         const layout = section.wish
           ? 'flex-col items-center justify-start pt-16 text-center'
           : left
@@ -94,7 +94,7 @@ export function Overlay() {
       <div
         className="absolute inset-0 flex items-center justify-center px-4"
         style={{
-          opacity: Math.max(0, (u - 5.35) * 2.2),
+          opacity: Math.max(0, (u - (scrollMax - 0.65)) * 2.2),
           pointerEvents: letterActive ? 'auto' : 'none',
           visibility: letterActive ? 'visible' : 'hidden',
         }}

@@ -2,7 +2,7 @@ import { Center, Text3D } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { friend } from '../config'
+import { friend, scrollMax } from '../config'
 import { scrollState } from '../scroll-store'
 
 const FONT = '/fonts/helvetiker_bold.typeface.json'
@@ -26,9 +26,9 @@ export function BirthdayText() {
 
   useFrame((state, delta) => {
     if (!group.current) return
-    const u = scrollState.offset * 6
+    const u = scrollState.offset * scrollMax
     const hero = 1 - THREE.MathUtils.smoothstep(u, 0.55, 1.35)
-    const finale = THREE.MathUtils.smoothstep(u, 5.45, 5.9)
+    const finale = THREE.MathUtils.smoothstep(u, scrollMax - 0.55, scrollMax - 0.1)
     const visible = Math.max(hero, finale)
     const targetY = THREE.MathUtils.lerp(0.35, 2.1, finale)
     const targetZ = THREE.MathUtils.lerp(0, -1.4, 1 - hero)

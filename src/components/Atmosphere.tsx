@@ -2,6 +2,7 @@ import { ContactShadows, Sparkles, Stars } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import * as THREE from 'three'
+import { photos, scrollMax } from '../config'
 import { scrollState } from '../scroll-store'
 
 function NeonRing({
@@ -41,7 +42,11 @@ export function Atmosphere() {
 
   useFrame((_, delta) => {
     if (!rings.current) return
-    const hide = THREE.MathUtils.smoothstep(scrollState.offset * 6, 4.35, 5.05)
+    const hide = THREE.MathUtils.smoothstep(
+      scrollState.offset * scrollMax,
+      photos.length + 0.35,
+      photos.length + 1.05,
+    )
     const s = THREE.MathUtils.damp(rings.current.scale.x, 1 - hide * 0.92, 3, delta)
     rings.current.scale.setScalar(s)
     rings.current.visible = s > 0.08

@@ -9,7 +9,7 @@ export function ScrollDriver() {
     if (!entered) return
 
     const onWheel = (event: WheelEvent) => {
-      addScrollDelta(event.deltaY / (window.innerHeight * 5.4))
+      addScrollDelta(event.deltaY / (window.innerHeight * 6.4))
     }
 
     let lastY = 0

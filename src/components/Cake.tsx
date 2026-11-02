@@ -2,6 +2,7 @@ import { useCursor } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { photos, scrollMax } from '../config'
 import { useParty } from '../party-context'
 import { scrollState } from '../scroll-store'
 
@@ -66,9 +67,9 @@ export function Cake() {
 
   useFrame((state, delta) => {
     if (!group.current) return
-    const u = scrollState.offset * 6
-    const show = THREE.MathUtils.smoothstep(u, 4.45, 5.05)
-    const finale = THREE.MathUtils.smoothstep(u, 5.5, 6)
+    const u = scrollState.offset * scrollMax
+    const show = THREE.MathUtils.smoothstep(u, photos.length + 0.45, photos.length + 1.05)
+    const finale = THREE.MathUtils.smoothstep(u, scrollMax - 0.5, scrollMax)
     const y = THREE.MathUtils.lerp(-4.5, -0.95, show)
     const z = THREE.MathUtils.lerp(1.4, 0.2, show) - finale * 1.8
     group.current.position.y = THREE.MathUtils.damp(group.current.position.y, y, 2.8, delta)

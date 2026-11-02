@@ -2,7 +2,7 @@ import { Image, useCursor } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { photos } from '../config'
+import { photos, scrollMax } from '../config'
 import { scrollState } from '../scroll-store'
 
 function dampVec(current: THREE.Vector3, target: THREE.Vector3, lambda: number, delta: number) {
@@ -29,15 +29,16 @@ function PhotoCard({
 
   useFrame((state, delta) => {
     if (!group.current) return
-    const u = scrollState.offset * 6
+    const u = scrollState.offset * scrollMax
     const time = state.clock.elapsedTime
     const slots = [
-      [-3.7, 0.55, -1.15],
-      [3.7, 0.45, -1.05],
-      [-3.35, -0.85, -2.05],
-      [3.45, -0.7, -1.85],
+      [-3.6, 0.85, -1.2],
+      [3.6, 0.85, -1.2],
+      [-3.8, -0.75, -1.85],
+      [3.8, -0.75, -1.85],
+      [0, -1.35, -2.25],
     ]
-    const slot = slots[index]
+    const slot = slots[index] ?? [0, 0, -2]
     orbit.set(
       slot[0] + Math.sin(time * 0.6 + index) * 0.12,
       slot[1] + Math.cos(time * 0.8 + index) * 0.18,
@@ -48,8 +49,8 @@ function PhotoCard({
     if (u < 0.85) {
       target.copy(orbit)
       scale = 0.7
-    } else if (u < 4.8) {
-      const active = THREE.MathUtils.clamp(Math.round(u) - 1, 0, 3)
+    } else if (u < photos.length + 0.8) {
+      const active = THREE.MathUtils.clamp(Math.round(u) - 1, 0, photos.length - 1)
       if (active === index) {
         const narrow = state.viewport.aspect < 1.05
         target.set(narrow ? 0.15 : 1.6, narrow ? -0.05 : 0.2, 1.2)
