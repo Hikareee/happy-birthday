@@ -8,7 +8,7 @@ export const photos = [
   {
     id: 'origin',
     src: '/photos/childhood.jpg',
-    title: 'Fat Lionel',
+    title: '',
     kicker: '',
     copy: '',
     frame: [1.72, 2.05] as [number, number],
@@ -24,7 +24,7 @@ export const photos = [
   {
     id: 'beach',
     src: '/photos/beach.jpg',
-    title: '',
+    title: 'Bronze?',
     kicker: '',
     copy: '',
     frame: [1.45, 2.35] as [number, number],
@@ -32,7 +32,7 @@ export const photos = [
   {
     id: 'sunset',
     src: '/photos/sunset.jpg',
-    title: '',
+    title: 'Bronze?',
     kicker: '',
     copy: '',
     frame: [1.45, 2.35] as [number, number],
@@ -55,7 +55,10 @@ export const photos = [
   },
 ]
 
-export const scrollMax = photos.length + 2
+export const letterStage = photos.length + 1
+export const wishStage = photos.length + 2
+export const scrollMax = wishStage
+export const endingVideo = '/photos/endingvid.mp4'
 
 export const letter = {
   kicker: 'A birthday prayer',

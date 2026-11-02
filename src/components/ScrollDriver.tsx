@@ -1,36 +1,26 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useParty } from '../party-context'
-import { addScrollDelta } from '../scroll-store'
+import { bindStageKeys, setStageKeysEnabled } from '../stage-keys'
 
 export function ScrollDriver() {
-  const { entered } = useParty()
+  const { entered, endingOpen } = useParty()
+  const frame = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!entered) return
+    bindStageKeys()
+    setStageKeysEnabled(entered && !endingOpen)
+    if (entered && !endingOpen) frame.current?.focus({ preventScroll: true })
+    return () => setStageKeysEnabled(false)
+  }, [entered, endingOpen])
 
-    const onWheel = (event: WheelEvent) => {
-      addScrollDelta(event.deltaY / (window.innerHeight * 6.4))
-    }
+  if (!entered) return null
 
-    let lastY = 0
-    const onTouchStart = (event: TouchEvent) => {
-      lastY = event.touches[0]?.clientY ?? 0
-    }
-    const onTouchMove = (event: TouchEvent) => {
-      const y = event.touches[0]?.clientY ?? lastY
-      addScrollDelta((lastY - y) / (window.innerHeight * 3.6))
-      lastY = y
-    }
-
-    window.addEventListener('wheel', onWheel, { passive: true })
-    window.addEventListener('touchstart', onTouchStart, { passive: true })
-    window.addEventListener('touchmove', onTouchMove, { passive: true })
-    return () => {
-      window.removeEventListener('wheel', onWheel)
-      window.removeEventListener('touchstart', onTouchStart)
-      window.removeEventListener('touchmove', onTouchMove)
-    }
-  }, [entered])
-
-  return null
+  return (
+    <div
+      ref={frame}
+      tabIndex={0}
+      aria-label="Birthday stages. Use arrow keys to move."
+      className="pointer-events-none absolute inset-0 z-10 h-0 w-0 overflow-hidden outline-none"
+    />
+  )
 }

@@ -19,21 +19,21 @@ export function Scene() {
     scrollState.offset = THREE.MathUtils.damp(scrollState.offset, scrollState.target, 3.2, delta)
     tickScroll(scrollState.offset)
     const u = scrollState.offset * scrollMax
-    const mouseX = state.pointer.x * 0.35
-    const mouseY = state.pointer.y * 0.18
+    const mouseX = state.pointer.x * 0.1
+    const mouseY = state.pointer.y * 0.06
 
     if (u < 0.9) {
-      cam.set(mouseX, 0.42 + mouseY, 9.4)
-      look.set(0, 0.15, 0)
-    } else if (u < photos.length + 0.7) {
-      cam.set(-0.35 + mouseX * 0.4, 0.28 + mouseY * 0.4, 7.1)
-      look.set(0.7, 0.15, 0)
-    } else if (u < photos.length + 1.45) {
-      cam.set(0.25 + mouseX * 0.25, 0.85, 6.8)
-      look.set(0, 0.1, 0)
+      cam.set(mouseX, 0.38 + mouseY, 9.8)
+      look.set(0, 0.12, 0)
+    } else if (u < photos.length + 0.28) {
+      cam.set(mouseX * 0.16, 0.16 + mouseY * 0.12, 7.6)
+      look.set(0, 0.12, 0)
+    } else if (u < photos.length + 1.5) {
+      cam.set(mouseX * 0.08, 0.32, 8.8)
+      look.set(0, 0.06, 0)
     } else {
-      cam.set(mouseX * 0.35, 1.45, 10.4)
-      look.set(0, 0.8, 0)
+      cam.set(mouseX * 0.08, 0.68, 7.2)
+      look.set(0, 0.04, 0)
     }
 
     camera.position.x = THREE.MathUtils.damp(camera.position.x, cam.x, 2.4, delta)

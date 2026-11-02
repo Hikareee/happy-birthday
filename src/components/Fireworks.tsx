@@ -1,9 +1,7 @@
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { photos, scrollMax } from '../config'
 import { useParty } from '../party-context'
-import { scrollState } from '../scroll-store'
 
 const COUNT = 520
 const PALETTE = [
@@ -51,8 +49,7 @@ export function Fireworks() {
   }
 
   useFrame((state, delta) => {
-    const u = scrollState.offset * scrollMax
-    const armed = wishMade || u > photos.length + 1.55
+    const armed = wishMade
     if (armed && state.clock.elapsedTime > nextBurst.current) {
       nextBurst.current = state.clock.elapsedTime + 0.38
       spawn(

@@ -1,4 +1,4 @@
-import { Bloom, ChromaticAberration, EffectComposer, Vignette } from '@react-three/postprocessing'
+import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
 import { useEffect, useState } from 'react'
 
 export function Effects() {
@@ -14,9 +14,8 @@ export function Effects() {
 
   return (
     <EffectComposer enableNormalPass={false} multisampling={0}>
-      <Bloom luminanceThreshold={0.15} intensity={1.15} mipmapBlur luminanceSmoothing={0.2} />
-      <ChromaticAberration radialModulation modulationOffset={0.35} offset={[0.0007, 0.0009]} />
-      <Vignette darkness={0.62} offset={0.25} />
+      <Bloom luminanceThreshold={0.34} intensity={0.38} mipmapBlur luminanceSmoothing={0.4} />
+      <Vignette darkness={0.55} offset={0.32} />
     </EffectComposer>
   )
 }

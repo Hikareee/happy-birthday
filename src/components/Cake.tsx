@@ -53,25 +53,90 @@ function Candle({
   )
 }
 
-function Basketball() {
+function Basketball({ position, rotation }: { position: [number, number, number]; rotation: [number, number, number] }) {
   return (
-    <group position={[0.34, 1.36, 0.16]} rotation={[0.35, 0.5, 0.2]}>
+    <group position={position} rotation={rotation}>
       <mesh>
-        <sphereGeometry args={[0.175, 32, 32]} />
+        <sphereGeometry args={[0.13, 32, 32]} />
         <meshStandardMaterial color="#d35400" roughness={0.5} />
       </mesh>
       <mesh>
-        <torusGeometry args={[0.176, 0.01, 8, 48]} />
+        <torusGeometry args={[0.131, 0.008, 8, 48]} />
         <meshStandardMaterial color="#1a1208" />
       </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.176, 0.01, 8, 48]} />
+        <torusGeometry args={[0.131, 0.008, 8, 48]} />
         <meshStandardMaterial color="#1a1208" />
       </mesh>
       <mesh rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[0.176, 0.01, 8, 48]} />
+        <torusGeometry args={[0.131, 0.008, 8, 48]} />
         <meshStandardMaterial color="#1a1208" />
       </mesh>
+    </group>
+  )
+}
+
+function BasketballHoop() {
+  const net = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => {
+        const angle = (i / 12) * Math.PI * 2
+        return {
+          angle,
+          position: [Math.cos(angle) * 0.09, -0.09, Math.sin(angle) * 0.09] as [number, number, number],
+          rotation: [Math.sin(angle) * 0.5, 0, -Math.cos(angle) * 0.5] as [number, number, number],
+        }
+      }),
+    [],
+  )
+
+  return (
+    <group position={[0.46, 1.17, 0.22]} rotation={[0, -0.7, 0]}>
+      <mesh position={[0, 0.22, -0.16]}>
+        <cylinderGeometry args={[0.018, 0.022, 0.44, 8]} />
+        <meshStandardMaterial color="#cfd3d8" metalness={0.75} roughness={0.28} />
+      </mesh>
+      <mesh position={[0, 0.44, -0.06]} rotation={[1.12, 0, 0]}>
+        <cylinderGeometry args={[0.012, 0.012, 0.24, 8]} />
+        <meshStandardMaterial color="#cfd3d8" metalness={0.75} roughness={0.28} />
+      </mesh>
+      <mesh position={[0, 0.56, 0.04]}>
+        <boxGeometry args={[0.58, 0.38, 0.03]} />
+        <meshStandardMaterial color="#E76F51" roughness={0.4} />
+      </mesh>
+      <mesh position={[0, 0.56, 0.058]}>
+        <boxGeometry args={[0.5, 0.3, 0.008]} />
+        <meshStandardMaterial color="#f7f9fc" roughness={0.38} />
+      </mesh>
+      <mesh position={[0, 0.56, 0.022]}>
+        <boxGeometry args={[0.5, 0.3, 0.008]} />
+        <meshStandardMaterial color="#f7f9fc" roughness={0.38} />
+      </mesh>
+      <mesh position={[0, 0.48, 0.066]}>
+        <boxGeometry args={[0.2, 0.15, 0.006]} />
+        <meshStandardMaterial color="#E76F51" roughness={0.35} />
+      </mesh>
+      <mesh position={[0, 0.48, 0.014]}>
+        <boxGeometry args={[0.2, 0.15, 0.006]} />
+        <meshStandardMaterial color="#E76F51" roughness={0.35} />
+      </mesh>
+      <mesh position={[0, 0.36, 0.2]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.12, 0.014, 8, 28]} />
+        <meshStandardMaterial color="#E76F51" metalness={0.45} roughness={0.28} />
+      </mesh>
+      <group position={[0, 0.36, 0.2]}>
+        {net.map((strand) => (
+          <mesh key={strand.angle} position={strand.position} rotation={strand.rotation}>
+            <cylinderGeometry args={[0.0045, 0.003, 0.2, 5]} />
+            <meshStandardMaterial color="#fff6e4" roughness={0.55} />
+          </mesh>
+        ))}
+        <mesh position={[0, -0.08, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.07, 0.004, 6, 16]} />
+          <meshStandardMaterial color="#fff6e4" roughness={0.55} />
+        </mesh>
+      </group>
+      <Basketball position={[0.02, 0.22, 0.22]} rotation={[0.4, 0.7, 0.15]} />
     </group>
   )
 }
@@ -119,16 +184,15 @@ export function Cake() {
   useFrame((state, delta) => {
     if (!group.current) return
     const u = scrollState.offset * scrollMax
-    const show = THREE.MathUtils.smoothstep(u, photos.length + 0.45, photos.length + 1.05)
-    const finale = THREE.MathUtils.smoothstep(u, scrollMax - 0.5, scrollMax)
+    const show = THREE.MathUtils.smoothstep(u, photos.length + 1.4, photos.length + 1.95)
     const y = THREE.MathUtils.lerp(-4.5, -0.95, show)
-    const z = THREE.MathUtils.lerp(1.4, 0.2, show) - finale * 1.8
+    const z = THREE.MathUtils.lerp(1.4, 0.2, show)
     group.current.position.y = THREE.MathUtils.damp(group.current.position.y, y, 2.8, delta)
     group.current.position.z = THREE.MathUtils.damp(group.current.position.z, z, 2.8, delta)
     const s = THREE.MathUtils.damp(group.current.scale.x, THREE.MathUtils.lerp(0.2, 1, show), 2.8, delta)
     group.current.scale.setScalar(s)
-    group.current.rotation.y += delta * 0.25
-    group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.7) * 0.04
+    group.current.rotation.y += delta * 0.08
+    group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.35) * 0.02
     group.current.visible = show > 0.04
   })
 
@@ -168,7 +232,7 @@ export function Cake() {
         <meshStandardMaterial color="#E76F51" emissive="#E76F51" emissiveIntensity={0.6} />
       </mesh>
       <ValorantTopper />
-      <Basketball />
+      <BasketballHoop />
       {candles.map((pos, i) => (
         <Candle key={i} position={pos} lit={!wishMade} offset={i} />
       ))}

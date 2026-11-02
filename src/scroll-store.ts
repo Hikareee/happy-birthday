@@ -1,15 +1,27 @@
 import { useSyncExternalStore } from 'react'
+import { scrollMax } from './config'
 
 export const scrollState = {
   offset: 0,
   target: 0,
 }
 
+export const lastStage = scrollMax
+
 let bucket = -1
 const listeners = new Set<() => void>()
 
-export function addScrollDelta(delta: number) {
-  scrollState.target = Math.min(1, Math.max(0, scrollState.target + delta))
+export function currentStage() {
+  return Math.round(scrollState.target * lastStage)
+}
+
+export function goToStage(stage: number) {
+  const next = Math.min(lastStage, Math.max(0, Math.round(stage)))
+  scrollState.target = next / lastStage
+}
+
+export function stepStage(direction: 1 | -1) {
+  goToStage(currentStage() + direction)
 }
 
 export function tickScroll(current: number) {

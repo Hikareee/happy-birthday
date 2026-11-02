@@ -27,10 +27,9 @@ export function BirthdayText() {
   useFrame((state, delta) => {
     if (!group.current) return
     const u = scrollState.offset * scrollMax
-    const hero = 1 - THREE.MathUtils.smoothstep(u, 0.55, 1.35)
-    const finale = THREE.MathUtils.smoothstep(u, scrollMax - 0.55, scrollMax - 0.1)
-    const visible = Math.max(hero, finale)
-    const targetY = THREE.MathUtils.lerp(0.35, 2.1, finale)
+    const hero = 1 - THREE.MathUtils.smoothstep(u, 0.2, 0.92)
+    const visible = hero
+    const targetY = 0.35
     const targetZ = THREE.MathUtils.lerp(0, -1.4, 1 - hero)
     const targetScale = THREE.MathUtils.lerp(0.22, 1, visible)
     group.current.position.y = THREE.MathUtils.damp(group.current.position.y, targetY, 2.5, delta)

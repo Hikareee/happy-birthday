@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 *.mp3
+!public/photos/hapede.mp3
 
 # Editor directories and files
 .vscode/*

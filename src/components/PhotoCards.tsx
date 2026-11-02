@@ -21,57 +21,65 @@ function PhotoCard({
   frame: [number, number]
 }) {
   const group = useRef<THREE.Group>(null)
-  const spin = useRef(0)
+  const spin = useRef(index * 0.35)
   const [hovered, setHovered] = useState(false)
   useCursor(hovered)
   const target = useMemo(() => new THREE.Vector3(), [])
   const orbit = useMemo(() => new THREE.Vector3(), [])
+  const direction = index % 2 === 0 ? 1 : -1
 
   useFrame((state, delta) => {
     if (!group.current) return
     const u = scrollState.offset * scrollMax
     const time = state.clock.elapsedTime
-    const slots = [
-      [-3.6, 0.95, -1.2],
-      [3.6, 0.95, -1.2],
-      [-3.9, -0.15, -1.7],
-      [3.9, -0.15, -1.7],
-      [-3.5, -1.2, -2.1],
-      [3.5, -1.2, -2.1],
-    ]
-    const slot = slots[index] ?? [0, 0, -2]
-    orbit.set(
-      slot[0] + Math.sin(time * 0.6 + index) * 0.12,
-      slot[1] + Math.cos(time * 0.8 + index) * 0.18,
-      slot[2],
-    )
+    const side = index === 0 ? -1 : 1
+    const span = state.viewport.aspect < 1.15 ? 2.42 : 3.2
+    orbit.set(side * span, Math.sin(time * 0.32 + index) * 0.08 - 0.12, -1.15)
 
-    let scale = 0.7
+    let scale = 0.5
+    let focused = false
+    let hidden = false
     if (u < 0.85) {
-      target.copy(orbit)
-      scale = 0.7
-    } else if (u < photos.length + 0.8) {
+      if (index < 2) {
+        target.copy(orbit)
+        scale = 0.5
+      } else {
+        target.set(side * 9, 0, -8)
+        scale = 0.01
+        hidden = true
+      }
+    } else if (u < photos.length + 0.28) {
       const active = THREE.MathUtils.clamp(Math.round(u) - 1, 0, photos.length - 1)
       if (active === index) {
         const narrow = state.viewport.aspect < 1.05
-        target.set(narrow ? 0.15 : 1.6, narrow ? -0.05 : 0.2, 1.2)
-        scale = narrow ? 0.92 : 1.12
+        target.set(0, 0.18, 1.2)
+        scale = narrow ? 0.92 : 1.08
+        focused = true
       } else {
-        target.set(index % 2 === 0 ? -6.4 : 6.4, (index - 1.5) * 0.35, -4)
-        scale = 0.34
+        target.set(side * 8, (index - 2) * 0.15, -6)
+        scale = 0.01
+        hidden = true
       }
     } else {
-      const arc = (index / photos.length) * Math.PI * 1.35 - 0.7
-      target.set(Math.sin(arc) * 4.8, 1.2 + Math.sin(time + index) * 0.1, -3.4 + Math.cos(arc) * 1.1)
-      scale = 0.55
+      target.set(side * 9, 0, -8)
+      scale = 0.01
+      hidden = true
     }
 
-    dampVec(group.current.position, target, 3.2, delta)
-    const s = THREE.MathUtils.damp(group.current.scale.x, scale, 3.2, delta)
+    const ease = hidden ? 6.4 : 3.2
+    dampVec(group.current.position, target, ease, delta)
+    const s = THREE.MathUtils.damp(group.current.scale.x, scale, ease, delta)
     group.current.scale.setScalar(s)
-    spin.current = THREE.MathUtils.damp(spin.current, hovered ? 0.35 : 0, 4, delta)
-    group.current.rotation.y = spin.current + (u < 0.85 ? Math.sin(time + index) * 0.05 : 0)
-    group.current.rotation.z = Math.sin(time * 0.4 + index) * 0.03
+    group.current.visible = s > 0.04
+
+    if (focused) {
+      spin.current = THREE.MathUtils.damp(spin.current, hovered ? 0.18 : 0.08, 3.2, delta)
+    } else if (!hidden) {
+      spin.current += delta * 0.22 * direction
+    }
+    group.current.rotation.y = spin.current
+    group.current.rotation.x = focused ? 0 : Math.sin(time * 0.2 + index) * 0.02
+    group.current.rotation.z = 0
   })
 
   const [w, h] = frame
@@ -81,20 +89,17 @@ function PhotoCard({
       ref={group}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
-      onClick={(event) => {
-        event.stopPropagation()
-        spin.current += Math.PI
-      }}
     >
-      <mesh position={[0, 0, -0.045]} castShadow>
-        <boxGeometry args={[w + 0.16, h + 0.16, 0.09]} />
-        <meshStandardMaterial color="#E9C46A" metalness={0.95} roughness={0.22} envMapIntensity={1.6} />
+      <mesh>
+        <boxGeometry args={[w + 0.14, h + 0.14, 0.07]} />
+        <meshStandardMaterial color="#E9C46A" metalness={0.55} roughness={0.38} envMapIntensity={0.8} />
       </mesh>
-      <mesh position={[0, 0, -0.09]}>
-        <boxGeometry args={[w + 0.08, h + 0.08, 0.04]} />
-        <meshStandardMaterial color="#160c08" metalness={0.4} roughness={0.5} />
+      <mesh>
+        <boxGeometry args={[w + 0.03, h + 0.03, 0.05]} />
+        <meshStandardMaterial color="#160c08" roughness={0.7} />
       </mesh>
-      <Image url={src} scale={[w, h]} radius={0.05} position={[0, 0, 0.01]} />
+      <Image url={src} scale={[w, h]} radius={0.04} position={[0, 0, 0.038]} />
+      <Image url={src} scale={[w, h]} radius={0.04} position={[0, 0, -0.038]} rotation={[0, Math.PI, 0]} />
     </group>
   )
 }

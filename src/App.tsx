@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'framer-motion'
-import { CursorGlow } from './components/CursorGlow'
+import { EndingVideo } from './components/EndingVideo'
 import { Hud } from './components/Hud'
 import { IntroGate } from './components/IntroGate'
 import { Overlay } from './components/Overlay'
@@ -17,8 +17,7 @@ function Experience() {
       <Overlay />
       <AnimatePresence>{entered ? null : <IntroGate key="intro" />}</AnimatePresence>
       <Hud />
-      <CursorGlow />
-      <div className="grain" />
+      <EndingVideo />
       <div className="vignette" />
     </div>
   )
