@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+:root {
+  --gold: #ffd76a;
+  --cyan: #22f0ff;
+  --magenta: #ff2d95;
+  --ink: #05010c;
+  --display: "Bebas Neue", sans-serif;
+  --sans: "Outfit", system-ui, sans-serif;
+  --serif: "Cormorant Garamond", Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--ink);
+  color: #fff8e7;
+  font-family: var(--sans);
+}
+
+body {
+  cursor: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+button,
+a {
+  font-family: inherit;
+}
+
+.grain,
+.vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+}
+
+.grain {
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
+}
+
+.vignette {
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.62) 100%);
+}
+
+.gold-text {
+  background: linear-gradient(180deg, #fff4c2 0%, #ffd76a 38%, #c4841d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.neon {
+  text-shadow:
+    0 0 18px rgba(34, 240, 255, 0.55),
+    0 0 42px rgba(255, 45, 149, 0.35);
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%);
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  animation: shimmer 2.4s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotateY(-18deg) rotateX(6deg);
+  }
+  to {
+    transform: rotateY(18deg) rotateX(6deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+.stack-scene {
+  perspective: 1400px;
+}
+
+.photo-stack {
+  position: relative;
+  width: min(200px, 52vw);
+  height: min(260px, 64vw);
+  transform-style: preserve-3d;
+  animation: spin-slow 7s ease-in-out infinite alternate;
+}
+
+.photo-stack img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 2px solid rgba(255, 215, 106, 0.85);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(255, 45, 149, 0.18),
+    0 0 70px rgba(34, 240, 255, 0.12);
+}
+
+.letter-card {
+  background: rgba(8, 4, 18, 0.78);
+  border: 1px solid rgba(255, 215, 106, 0.32);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 80px rgba(255, 45, 149, 0.16),
+    0 0 120px rgba(34, 240, 255, 0.08);
+}
+
+.scroll-html {
+  width: 100vw;
+  pointer-events: none;
+}
+
+.kicker {
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--cyan);
+}
+
+.display {
+  font-family: var(--display);
+  line-height: 0.86;
+  letter-spacing: 0.04em;
+}
