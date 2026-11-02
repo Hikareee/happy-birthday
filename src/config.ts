@@ -71,6 +71,16 @@ export const encorePhotos = [
     src: '/photos/encore-peace.jpg',
     frame: [1.48, 2.32] as [number, number],
   },
+  {
+    id: 'encore-flower',
+    src: '/photos/encore-flower.jpg',
+    frame: [1.3, 2.31] as [number, number],
+  },
+  {
+    id: 'encore-bros',
+    src: '/photos/encore-bros.jpg',
+    frame: [2.42, 1.09] as [number, number],
+  },
 ]
 
 export const letterStage = photos.length + 1
@@ -79,6 +89,7 @@ export const encoreStart = teaseStage + 1
 export const wishStage = encoreStart + encorePhotos.length
 export const scrollMax = wishStage
 export const endingVideo = '/photos/endingvid.mp4'
+export const encoreVideo = '/photos/whats-inside.mp4'
 export const teaseLine = "And of course it's not a birthday without..."
 
 export const letter = {

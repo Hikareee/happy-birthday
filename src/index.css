@@ -102,6 +102,21 @@ a {
   letter-spacing: 0.04em;
 }
 
+@keyframes linger-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.linger-copy {
+  animation: linger-in 0.7s ease both;
+}
+
 @keyframes present-fly {
   0% {
     transform: translate(-50%, 70vh) rotate(var(--rot, 0deg));
