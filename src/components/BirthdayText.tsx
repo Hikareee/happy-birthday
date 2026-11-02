@@ -76,7 +76,7 @@ export function BirthdayText() {
       <Center position={[0, -0.48, 0]}>
         <Text3D
           font={FONT}
-          size={0.26}
+          size={0.2}
           height={0.14}
           bevelEnabled
           bevelThickness={0.03}

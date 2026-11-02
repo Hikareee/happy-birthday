@@ -1,7 +1,7 @@
 export const friend = {
-  name: 'King',
-  from: 'Your best friend',
-  tagline: 'Another lap around the sun.',
+  name: 'Lionel',
+  from: 'Ko Nik',
+  tagline: 'May God bless you more and more as the years go by.',
 }
 
 export const photos = [
@@ -50,13 +50,14 @@ export const photos = [
 export const scrollMax = photos.length + 2
 
 export const letter = {
-  greeting: `Hey ${friend.name},`,
+  kicker: 'A birthday prayer',
+  greeting: `Happy birthday ${friend.name},`,
   body: [
-    'Another trip around the sun. From the bowl-cut kid with the gap-tooth grin to the guy who still picks up rocks — and beach crystals — like they matter. You have always been built different.',
-    'You show up. You laugh with your whole face. You lock in when it counts. Being your best friend is one of the easiest wins I have ever scored.',
-    'Proud of you. Today, and every orbit after this one.',
+    'May God bless you more and more as the years go by.',
+    'May with your added age comes added wisdom. With your added age comes more maturity, strength, and anointing, so that you may achieve great things and glorify the Lord’s name through your hands.',
+    'Hope I’ll continue to see you grow.',
   ],
-  signoff: `Happy birthday.\n— ${friend.from}`,
+  signoff: `Happy birthday bro.\n— ${friend.from}`,
 }
 
 export const palette = {

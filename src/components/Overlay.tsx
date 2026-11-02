@@ -12,7 +12,7 @@ type Section = {
 
 const copy: Section[] = [
   {
-    kicker: 'For the brother I chose',
+    kicker: `For ${friend.name}`,
     title: "It's your day",
     body: friend.tagline,
     gold: true,
@@ -99,8 +99,8 @@ export function Overlay() {
           visibility: letterActive ? 'visible' : 'hidden',
         }}
       >
-        <article className="letter-card max-w-xl rounded-3xl px-6 py-8 text-left md:px-10 md:py-10">
-          <p className="kicker mb-5">A note, not a caption</p>
+        <article className="letter-card max-h-[78vh] max-w-2xl overflow-y-auto rounded-3xl px-6 py-8 text-left md:px-10 md:py-10">
+          <p className="kicker mb-5">{letter.kicker}</p>
           <p className="font-serif text-2xl text-amber-100 italic md:text-3xl">{letter.greeting}</p>
           {letter.body.map((paragraph) => (
             <p key={paragraph.slice(0, 24)} className="mt-4 font-serif text-lg leading-relaxed text-white/80">

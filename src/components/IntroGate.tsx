@@ -1,6 +1,6 @@
 import { useProgress } from '@react-three/drei'
 import { motion } from 'framer-motion'
-import { photos } from '../config'
+import { friend, photos } from '../config'
 import { useParty } from '../party-context'
 
 export function IntroGate() {
@@ -37,8 +37,11 @@ export function IntroGate() {
         <br />
         BIRTHDAY
       </motion.h1>
+      <p className="display gold-text mb-3 text-4xl tracking-[0.18em] sm:text-5xl">
+        {friend.name.toUpperCase()}
+      </p>
       <p className="mb-6 max-w-md text-sm font-light tracking-wide text-white/70 md:text-base">
-        A 3D love letter for my best friend. Put on the volume. This one is extra.
+        A birthday prayer from Ko Nik. Put on the volume. This one is extra.
       </p>
 
       <div className="stack-scene mb-8">
