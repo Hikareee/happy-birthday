@@ -1,4 +1,4 @@
-import { useCursor } from '@react-three/drei'
+import { useCursor, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
@@ -53,15 +53,66 @@ function Candle({
   )
 }
 
+function Basketball() {
+  return (
+    <group position={[0.34, 1.36, 0.16]} rotation={[0.35, 0.5, 0.2]}>
+      <mesh>
+        <sphereGeometry args={[0.175, 32, 32]} />
+        <meshStandardMaterial color="#d35400" roughness={0.5} />
+      </mesh>
+      <mesh>
+        <torusGeometry args={[0.176, 0.01, 8, 48]} />
+        <meshStandardMaterial color="#1a1208" />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.176, 0.01, 8, 48]} />
+        <meshStandardMaterial color="#1a1208" />
+      </mesh>
+      <mesh rotation={[0, 0, Math.PI / 2]}>
+        <torusGeometry args={[0.176, 0.01, 8, 48]} />
+        <meshStandardMaterial color="#1a1208" />
+      </mesh>
+    </group>
+  )
+}
+
+function ValorantTopper() {
+  const texture = useTexture('/photos/valorant-bronze.png')
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.needsUpdate = true
+  return (
+    <group position={[-0.28, 1.18, 0.04]} rotation={[0, 0.4, 0]}>
+      <mesh position={[0, 0.14, 0]}>
+        <cylinderGeometry args={[0.012, 0.014, 0.28, 8]} />
+        <meshStandardMaterial color="#b08d57" metalness={0.9} roughness={0.25} />
+      </mesh>
+      <mesh position={[0, 0.42, 0.01]}>
+        <planeGeometry args={[0.58, 0.58]} />
+        <meshStandardMaterial
+          map={texture}
+          transparent
+          alphaTest={0.12}
+          side={THREE.DoubleSide}
+          metalness={0.85}
+          roughness={0.22}
+          emissive="#8a5a20"
+          emissiveIntensity={0.55}
+          emissiveMap={texture}
+        />
+      </mesh>
+    </group>
+  )
+}
+
 export function Cake() {
   const group = useRef<THREE.Group>(null)
   const { wishMade, makeWish } = useParty()
   const [hovered, setHovered] = useState(false)
   useCursor(hovered)
   const candles = useMemo(() => {
-    return Array.from({ length: 7 }, (_, i) => {
-      const a = (i / 7) * Math.PI * 2
-      return [Math.cos(a) * 0.38, 1.12, Math.sin(a) * 0.38] as [number, number, number]
+    return Array.from({ length: 5 }, (_, i) => {
+      const a = (i / 5) * Math.PI * 2 + 0.35
+      return [Math.cos(a) * 0.52, 1.12, Math.sin(a) * 0.52] as [number, number, number]
     })
   }, [])
 
@@ -116,10 +167,8 @@ export function Cake() {
         <torusGeometry args={[0.72, 0.06, 10, 40]} />
         <meshStandardMaterial color="#ff2d95" emissive="#ff2d95" emissiveIntensity={0.6} />
       </mesh>
-      <mesh position={[0, 1.28, 0]}>
-        <sphereGeometry args={[0.08, 16, 16]} />
-        <meshStandardMaterial color="#ff2d95" emissive="#ff2d95" emissiveIntensity={0.8} />
-      </mesh>
+      <ValorantTopper />
+      <Basketball />
       {candles.map((pos, i) => (
         <Candle key={i} position={pos} lit={!wishMade} offset={i} />
       ))}
