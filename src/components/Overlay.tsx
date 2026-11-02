@@ -46,6 +46,7 @@ export function Overlay() {
         const distance = Math.abs(u - index)
         const opacity = Math.max(0, 1 - distance * 1.65)
         if (opacity <= 0.03) return null
+        if (!section.title && !section.wish) return null
         const left = index > 0 && !section.wish
         const layout = section.wish
           ? 'flex-col items-center justify-start pt-16 text-center'
@@ -54,18 +55,22 @@ export function Overlay() {
             : 'flex-col items-center justify-end pb-14 text-center md:justify-between md:pt-24'
         return (
           <div
-            key={section.title}
+            key={section.title || `section-${index}`}
             className={`absolute inset-0 flex px-6 md:px-16 ${layout}`}
             style={{ opacity, transform: `translateY(${(u - index) * 12}px)` }}
           >
-            <div className={left ? 'max-w-md md:max-w-[32vw]' : 'max-w-lg'}>
-              <p className="kicker mb-3">{section.kicker}</p>
-              <h2
-                className={`display text-5xl md:text-7xl ${section.gold ? 'gold-text neon' : 'text-white'}`}
-              >
-                {section.title}
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-white/70 md:text-base">{section.body}</p>
+            <div className={left ? 'max-w-md md:max-w-[34vw]' : 'max-w-lg'}>
+              {section.kicker ? <p className="kicker mb-3">{section.kicker}</p> : null}
+              {section.title ? (
+                <h2
+                  className={`display text-5xl md:text-7xl ${section.gold ? 'gold-text neon' : 'text-white'}`}
+                >
+                  {section.title}
+                </h2>
+              ) : null}
+              {section.body ? (
+                <p className="mt-4 text-sm leading-relaxed text-white/70 md:text-base">{section.body}</p>
+              ) : null}
               {section.wish ? (
                 <button
                   type="button"
