@@ -37,11 +37,8 @@ export function IntroGate() {
         <br />
         BIRTHDAY
       </motion.h1>
-      <p className="display gold-text mb-3 text-4xl tracking-[0.18em] sm:text-5xl">
+      <p className="display gold-text mb-8 text-4xl tracking-[0.18em] sm:text-5xl">
         {friend.name.toUpperCase()}
-      </p>
-      <p className="mb-6 max-w-md text-sm font-light tracking-wide text-white/70 md:text-base">
-        A birthday prayer from Ko Nik. Put on the volume. This one is extra.
       </p>
 
       <div className="stack-scene mb-8">
