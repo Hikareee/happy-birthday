@@ -12,10 +12,12 @@ import { chime, setMutedAudio, setScorePaused, startScore } from './audio'
 import { burst } from './fx'
 import { goToStage } from './scroll-store'
 import { setStageKeysEnabled } from './stage-keys'
+import { finishUnwrap, startUnwrap, unwrapAge } from './unwrap-store'
 
 type Party = {
   entered: boolean
   enter: () => void
+  unwrapDone: boolean
   ready: boolean
   htmlProgress: number
   sceneReady: boolean
@@ -38,6 +40,7 @@ export function PartyProvider({ children }: { children: ReactNode }) {
   const [wishMade, setWishMade] = useState(false)
   const [endingOpen, setEndingOpen] = useState(false)
   const [muted, setMuted] = useState(false)
+  const [unwrapDone, setUnwrapDone] = useState(false)
   const ready = htmlReady && sceneReady
 
   useEffect(() => {
@@ -70,11 +73,30 @@ export function PartyProvider({ children }: { children: ReactNode }) {
 
   const enter = useCallback(() => {
     if (!ready) return
+    startUnwrap()
     goToStage(0)
     setEntered(true)
+    setUnwrapDone(false)
+    setStageKeysEnabled(false)
+    window.dispatchEvent(new Event('birthday-unwrap'))
     startScore()
-    burst('enter')
   }, [ready])
+
+  useEffect(() => {
+    if (!entered || unwrapDone) return
+    const burstAt = window.setTimeout(() => burst('enter'), 4600)
+    const tick = window.setInterval(() => {
+      if (unwrapAge() < 5.2) return
+      finishUnwrap()
+      setUnwrapDone(true)
+      goToStage(1)
+      setStageKeysEnabled(true)
+    }, 80)
+    return () => {
+      window.clearTimeout(burstAt)
+      window.clearInterval(tick)
+    }
+  }, [entered, unwrapDone])
 
   const makeWish = useCallback(() => {
     setWishMade((already) => {
@@ -108,6 +130,7 @@ export function PartyProvider({ children }: { children: ReactNode }) {
     () => ({
       entered,
       enter,
+      unwrapDone,
       ready,
       htmlProgress,
       sceneReady,
@@ -122,6 +145,7 @@ export function PartyProvider({ children }: { children: ReactNode }) {
     [
       entered,
       enter,
+      unwrapDone,
       ready,
       htmlProgress,
       sceneReady,

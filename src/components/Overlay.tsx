@@ -1,4 +1,4 @@
-import { friend, letter, photos, scrollMax } from '../config'
+import { encorePhotos, friend, letter, photos, scrollMax, teaseLine } from '../config'
 import { useParty } from '../party-context'
 import { useScrollOffset } from '../scroll-store'
 
@@ -9,6 +9,7 @@ type Section = {
   gold: boolean
   wish?: boolean
   prayer?: boolean
+  tease?: boolean
 }
 
 const copy: Section[] = [
@@ -33,6 +34,19 @@ const copy: Section[] = [
   },
   {
     kicker: '',
+    title: teaseLine,
+    body: '',
+    gold: true,
+    tease: true,
+  },
+  ...encorePhotos.map(() => ({
+    kicker: '',
+    title: '',
+    body: '',
+    gold: false,
+  })),
+  {
+    kicker: 'Fifteen',
     title: 'Make a wish',
     body: '',
     gold: true,
@@ -42,8 +56,8 @@ const copy: Section[] = [
 
 export function Overlay() {
   const offset = useScrollOffset()
-  const { entered, wishMade, makeWish, endingOpen } = useParty()
-  if (!entered || endingOpen) return null
+  const { entered, wishMade, makeWish, endingOpen, unwrapDone } = useParty()
+  if (!entered || endingOpen || !unwrapDone) return null
 
   const u = offset * scrollMax
 
@@ -53,11 +67,13 @@ export function Overlay() {
         const distance = Math.abs(u - index)
         const opacity = Math.max(0, 1 - distance * 2.35)
         if (opacity <= 0.03) return null
-        if (!section.title && !section.wish && !section.prayer && index !== 0) return null
+        if (!section.title && !section.wish && !section.prayer && !section.tease && index !== 0) return null
         const layout = section.wish
           ? 'flex-col items-center justify-start pt-12 text-center'
           : section.prayer
             ? 'items-center justify-center pt-14'
+            : section.tease
+              ? 'flex-col items-center justify-center text-center'
             : index === 0
               ? 'flex-col items-center justify-end pb-12 text-center'
               : 'flex-col items-center justify-end pb-16 text-center'
@@ -82,17 +98,21 @@ export function Overlay() {
                 </article>
               </>
             ) : (
-              <div className="max-w-md">
+              <div className={section.tease ? 'max-w-5xl px-2' : 'max-w-md'}>
                 {index === 0 ? null : section.kicker ? <p className="kicker mb-3">{section.kicker}</p> : null}
                 {section.title ? (
                   <h2
-                    className={`display text-3xl md:text-4xl ${section.gold ? 'gold-text' : 'text-white/92'}`}
+                    className={`display ${
+                      section.tease
+                        ? 'gold-text text-5xl leading-[0.9] sm:text-6xl md:text-8xl'
+                        : `text-3xl md:text-4xl ${section.gold ? 'gold-text' : 'text-white/92'}`
+                    }`}
                   >
                     {section.title}
                   </h2>
                 ) : null}
                 {section.body ? (
-                  <p className="mt-3 text-sm leading-relaxed text-white/65 md:text-[15px]">{section.body}</p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-white/80 md:text-base">{section.body}</p>
                 ) : null}
                 {section.wish ? (
                   <button

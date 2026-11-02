@@ -1,10 +1,114 @@
 import { useCursor, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { photos, scrollMax } from '../config'
+import { scrollMax, wishStage } from '../config'
 import { useParty } from '../party-context'
 import { scrollState } from '../scroll-store'
+
+const OMEN_SRC = '/photos/omen.gif'
+const OMEN_COUNT = 10
+const OMEN_RADIUS = 1.82
+
+function useOmenTexture() {
+  const img = useMemo(() => {
+    const image = new Image()
+    image.decoding = 'async'
+    image.src = OMEN_SRC
+    return image
+  }, [])
+
+  const { canvas, ctx, texture } = useMemo(() => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 256
+    canvas.height = 256
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })!
+    const texture = new THREE.CanvasTexture(canvas)
+    texture.colorSpace = THREE.SRGBColorSpace
+    texture.minFilter = THREE.LinearFilter
+    texture.magFilter = THREE.LinearFilter
+    texture.generateMipmaps = false
+    return { canvas, ctx, texture }
+  }, [])
+
+  useEffect(() => () => texture.dispose(), [texture])
+
+  useFrame(() => {
+    if (!img.naturalWidth) return
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    const frame = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const px = frame.data
+    for (let i = 0; i < px.length; i += 4) {
+      const min = Math.min(px[i], px[i + 1], px[i + 2])
+      if (min > 248) px[i + 3] = 0
+      else if (min > 232) px[i + 3] = Math.min(px[i + 3], Math.round(((248 - min) / 16) * 255))
+    }
+    ctx.putImageData(frame, 0, 0)
+    texture.needsUpdate = true
+  })
+
+  return texture
+}
+
+function OmenCrowd({ texture }: { texture: THREE.Texture }) {
+  const spots = useMemo(
+    () =>
+      Array.from({ length: OMEN_COUNT }, (_, index) => {
+        const angle = (index / OMEN_COUNT) * Math.PI * 2
+        return {
+          position: [Math.cos(angle) * OMEN_RADIUS, 0.42, Math.sin(angle) * OMEN_RADIUS] as [
+            number,
+            number,
+            number,
+          ],
+          delay: index * 0.4,
+        }
+      }),
+    [],
+  )
+
+  return (
+    <group>
+      {spots.map((spot) => (
+        <OmenFigure key={spot.delay} texture={texture} position={spot.position} delay={spot.delay} />
+      ))}
+    </group>
+  )
+}
+
+function OmenFigure({
+  texture,
+  position,
+  delay,
+}: {
+  texture: THREE.Texture
+  position: [number, number, number]
+  delay: number
+}) {
+  const group = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (!group.current) return
+    group.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 3.4 + delay) * 0.06
+    group.current.lookAt(state.camera.position)
+  })
+
+  return (
+    <group ref={group} position={position}>
+      <mesh>
+        <planeGeometry args={[0.72, 0.72]} />
+        <meshBasicMaterial
+          map={texture}
+          transparent
+          alphaTest={0.12}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+    </group>
+  )
+}
 
 function Flame({ lit, offset }: { lit: boolean; offset: number }) {
   const ref = useRef<THREE.Mesh>(null)
@@ -91,7 +195,7 @@ function BasketballHoop() {
   )
 
   return (
-    <group position={[0.46, 1.17, 0.22]} rotation={[0, -0.7, 0]}>
+    <group position={[0.4, 1.17, 0.32]} rotation={[0, 0.12, 0]}>
       <mesh position={[0, 0.22, -0.16]}>
         <cylinderGeometry args={[0.018, 0.022, 0.44, 8]} />
         <meshStandardMaterial color="#cfd3d8" metalness={0.75} roughness={0.28} />
@@ -146,7 +250,7 @@ function ValorantTopper() {
   texture.colorSpace = THREE.SRGBColorSpace
   texture.needsUpdate = true
   return (
-    <group position={[-0.28, 1.18, 0.04]} rotation={[0, 0.4, 0]}>
+    <group position={[-0.34, 1.18, 0.1]} rotation={[0, -0.08, 0]}>
       <mesh position={[0, 0.14, 0]}>
         <cylinderGeometry args={[0.012, 0.014, 0.28, 8]} />
         <meshStandardMaterial color="#b08d57" metalness={0.9} roughness={0.25} />
@@ -171,6 +275,9 @@ function ValorantTopper() {
 
 export function Cake() {
   const group = useRef<THREE.Group>(null)
+  const spin = useRef(0)
+  const revealed = useRef(false)
+  const omenTexture = useOmenTexture()
   const { wishMade, makeWish } = useParty()
   const [hovered, setHovered] = useState(false)
   useCursor(hovered)
@@ -184,14 +291,27 @@ export function Cake() {
   useFrame((state, delta) => {
     if (!group.current) return
     const u = scrollState.offset * scrollMax
-    const show = THREE.MathUtils.smoothstep(u, photos.length + 1.4, photos.length + 1.95)
+    const show = THREE.MathUtils.smoothstep(u, wishStage - 0.55, wishStage - 0.05)
     const y = THREE.MathUtils.lerp(-4.5, -0.95, show)
     const z = THREE.MathUtils.lerp(1.4, 0.2, show)
     group.current.position.y = THREE.MathUtils.damp(group.current.position.y, y, 2.8, delta)
     group.current.position.z = THREE.MathUtils.damp(group.current.position.z, z, 2.8, delta)
     const s = THREE.MathUtils.damp(group.current.scale.x, THREE.MathUtils.lerp(0.2, 1, show), 2.8, delta)
     group.current.scale.setScalar(s)
-    group.current.rotation.y += delta * 0.08
+    if (show > 0.04) {
+      if (!revealed.current) {
+        spin.current = 0
+        group.current.rotation.y = 0
+        revealed.current = true
+      } else {
+        spin.current += delta * 0.08
+        group.current.rotation.y = spin.current
+      }
+    } else {
+      revealed.current = false
+      spin.current = 0
+      group.current.rotation.y = 0
+    }
     group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.35) * 0.02
     group.current.visible = show > 0.04
   })
@@ -200,6 +320,7 @@ export function Cake() {
     <group
       ref={group}
       position={[0, -4.5, 1.4]}
+      rotation={[0, 0, 0]}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
       onClick={(event) => {
@@ -233,6 +354,7 @@ export function Cake() {
       </mesh>
       <ValorantTopper />
       <BasketballHoop />
+      <OmenCrowd texture={omenTexture} />
       {candles.map((pos, i) => (
         <Candle key={i} position={pos} lit={!wishMade} offset={i} />
       ))}

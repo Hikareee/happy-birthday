@@ -101,3 +101,52 @@ a {
   line-height: 0.88;
   letter-spacing: 0.04em;
 }
+
+@keyframes present-fly {
+  0% {
+    transform: translate(-50%, 70vh) rotate(var(--rot, 0deg));
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--sway, 0px)), -24vh) rotate(calc(var(--rot, 0deg) + 28deg));
+    opacity: 0;
+  }
+}
+
+#flying-presents-root {
+  z-index: 90;
+}
+
+.present {
+  position: absolute;
+  top: 0;
+  border-radius: 7px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+  animation-name: present-fly;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.present::before,
+.present::after {
+  content: '';
+  position: absolute;
+  background: var(--ribbon, #fff3d6);
+}
+
+.present::before {
+  top: 0;
+  bottom: 0;
+  left: 42%;
+  width: 18%;
+}
+
+.present::after {
+  left: 0;
+  right: 0;
+  top: 38%;
+  height: 18%;
+}

@@ -3,15 +3,15 @@ import { useParty } from '../party-context'
 import { bindStageKeys, setStageKeysEnabled } from '../stage-keys'
 
 export function ScrollDriver() {
-  const { entered, endingOpen } = useParty()
+  const { entered, endingOpen, unwrapDone } = useParty()
   const frame = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     bindStageKeys()
-    setStageKeysEnabled(entered && !endingOpen)
-    if (entered && !endingOpen) frame.current?.focus({ preventScroll: true })
+    setStageKeysEnabled(entered && unwrapDone && !endingOpen)
+    if (entered && unwrapDone && !endingOpen) frame.current?.focus({ preventScroll: true })
     return () => setStageKeysEnabled(false)
-  }, [entered, endingOpen])
+  }, [entered, endingOpen, unwrapDone])
 
   if (!entered) return null
 

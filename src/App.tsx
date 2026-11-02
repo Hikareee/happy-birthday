@@ -1,5 +1,6 @@
 import { AnimatePresence } from 'framer-motion'
 import { EndingVideo } from './components/EndingVideo'
+import { FlyingPresents } from './components/FlyingPresents'
 import { Hud } from './components/Hud'
 import { IntroGate } from './components/IntroGate'
 import { Overlay } from './components/Overlay'
@@ -16,6 +17,7 @@ function Experience() {
       <ScrollDriver />
       <Overlay />
       <AnimatePresence>{entered ? null : <IntroGate key="intro" />}</AnimatePresence>
+      <FlyingPresents />
       <Hud />
       <EndingVideo />
       <div className="vignette" />

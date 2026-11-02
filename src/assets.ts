@@ -1,10 +1,12 @@
 import { useEnvironment, useFont, useTexture } from '@react-three/drei'
-import { photos } from './config'
+import { encorePhotos, photos } from './config'
 
 export const IMAGE_ASSETS = [
   ...photos.map((photo) => photo.src),
+  ...encorePhotos.map((photo) => photo.src),
   '/photos/meerkat.png',
   '/photos/valorant-bronze.png',
+  '/photos/omen.gif',
 ]
 
 export const FONT_ASSET = '/fonts/helvetiker_bold.typeface.json'
