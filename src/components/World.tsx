@@ -38,7 +38,7 @@ export function World() {
         toneMapping: THREE.ACESFilmicToneMapping,
         powerPreference: 'high-performance',
       }}
-      camera={{ position: [0, 0.42, 9.4], fov: 40, near: 0.1, far: 80 }}
+      camera={{ position: [0, 0.42, 9.4], fov: 40, near: 0.1, far: 220 }}
       style={{
         width: '100%',
         height: '100%',

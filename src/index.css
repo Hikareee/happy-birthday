@@ -37,7 +37,7 @@ a {
   position: fixed;
   inset: 0;
   z-index: 15;
-  background: radial-gradient(ellipse at center, transparent 58%, rgba(4, 18, 10, 0.62) 100%);
+  background: radial-gradient(ellipse at center, transparent 64%, rgba(4, 18, 10, 0.42) 100%);
 }
 
 .gold-text {
