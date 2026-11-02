@@ -1,6 +1,6 @@
 import confetti from 'canvas-confetti'
 
-const colors = ['#ffd76a', '#22f0ff', '#ff2d95', '#fff6d5', '#8b5cff', '#ffffff']
+const colors = ['#E9C46A', '#2A9D8F', '#E76F51', '#FFF3D6', '#7CB342', '#F4A261']
 
 export function burst(kind: 'enter' | 'wish' | 'finale') {
   const base = { colors, disableForReducedMotion: true, zIndex: 80 }

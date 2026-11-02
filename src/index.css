@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --gold: #ffd76a;
-  --cyan: #22f0ff;
-  --magenta: #ff2d95;
-  --ink: #05010c;
+  --gold: #e9c46a;
+  --teal: #2a9d8f;
+  --orange: #e76f51;
+  --lime: #7cb342;
+  --ink: #07140c;
   --display: "Bebas Neue", sans-serif;
   --sans: "Outfit", system-ui, sans-serif;
   --serif: "Cormorant Garamond", Georgia, serif;
@@ -56,11 +57,11 @@ a {
 }
 
 .vignette {
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.62) 100%);
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(4, 18, 10, 0.7) 100%);
 }
 
 .gold-text {
-  background: linear-gradient(180deg, #fff4c2 0%, #ffd76a 38%, #c4841d 100%);
+  background: linear-gradient(180deg, #fff3d6 0%, #e9c46a 42%, #e76f51 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -68,8 +69,8 @@ a {
 
 .neon {
   text-shadow:
-    0 0 18px rgba(34, 240, 255, 0.55),
-    0 0 42px rgba(255, 45, 149, 0.35);
+    0 0 18px rgba(42, 157, 143, 0.55),
+    0 0 42px rgba(231, 111, 81, 0.4);
 }
 
 .shimmer {
@@ -141,32 +142,32 @@ a {
   height: 100%;
   object-fit: cover;
   border-radius: 18px;
-  border: 2px solid rgba(255, 215, 106, 0.85);
+  border: 2px solid rgba(233, 196, 106, 0.9);
   box-shadow:
     0 30px 60px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(255, 45, 149, 0.18),
-    0 0 70px rgba(34, 240, 255, 0.12);
+    0 0 40px rgba(231, 111, 81, 0.22),
+    0 0 70px rgba(42, 157, 143, 0.16);
 }
 
 .mascot {
   width: min(340px, 82vw);
   height: auto;
   border-radius: 28px;
-  border: 2px solid rgba(255, 215, 106, 0.9);
+  border: 2px solid rgba(233, 196, 106, 0.92);
   box-shadow:
     0 30px 70px rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(255, 45, 149, 0.28),
-    0 0 80px rgba(34, 240, 255, 0.16);
+    0 0 50px rgba(231, 111, 81, 0.32),
+    0 0 80px rgba(42, 157, 143, 0.2);
   animation: floaty 3.4s ease-in-out infinite;
 }
 
 .letter-card {
-  background: rgba(8, 4, 18, 0.78);
-  border: 1px solid rgba(255, 215, 106, 0.32);
+  background: rgba(7, 28, 18, 0.82);
+  border: 1px solid rgba(233, 196, 106, 0.38);
   backdrop-filter: blur(18px);
   box-shadow:
-    0 0 80px rgba(255, 45, 149, 0.16),
-    0 0 120px rgba(34, 240, 255, 0.08);
+    0 0 80px rgba(231, 111, 81, 0.16),
+    0 0 120px rgba(42, 157, 143, 0.1);
 }
 
 .scroll-html {
@@ -178,7 +179,7 @@ a {
   letter-spacing: 0.32em;
   text-transform: uppercase;
   font-size: 11px;
-  color: var(--cyan);
+  color: var(--teal);
 }
 
 .display {

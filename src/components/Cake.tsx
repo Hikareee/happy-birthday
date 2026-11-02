@@ -157,15 +157,15 @@ export function Cake() {
       </mesh>
       <mesh position={[0, 0.84, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.98, 0.07, 10, 40]} />
-        <meshStandardMaterial color="#ffd76a" metalness={0.4} roughness={0.3} />
+        <meshStandardMaterial color="#E9C46A" metalness={0.4} roughness={0.3} />
       </mesh>
       <mesh position={[0, 1.0, 0]}>
         <cylinderGeometry args={[0.72, 0.78, 0.34, 40]} />
-        <meshStandardMaterial color="#ffd7de" roughness={0.4} />
+        <meshStandardMaterial color="#ffe8c8" roughness={0.4} />
       </mesh>
       <mesh position={[0, 1.16, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.72, 0.06, 10, 40]} />
-        <meshStandardMaterial color="#ff2d95" emissive="#ff2d95" emissiveIntensity={0.6} />
+        <meshStandardMaterial color="#E76F51" emissive="#E76F51" emissiveIntensity={0.6} />
       </mesh>
       <ValorantTopper />
       <Basketball />

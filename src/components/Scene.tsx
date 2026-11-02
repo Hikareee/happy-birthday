@@ -44,7 +44,7 @@ export function Scene() {
 
   return (
     <>
-      <Environment preset="city" />
+      <Environment preset="sunset" />
       <Atmosphere />
       <BirthdayText />
       <PhotoCards />

@@ -17,7 +17,7 @@ export function World() {
       camera={{ position: [0, 0.42, 9.4], fov: 40, near: 0.1, far: 80 }}
       style={{ width: '100%', height: '100%' }}
     >
-      <color attach="background" args={['#05010c']} />
+      <color attach="background" args={['#07140c']} />
       <Suspense fallback={null}>
         <Scene />
         <Effects />

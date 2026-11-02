@@ -7,11 +7,11 @@ import { scrollState } from '../scroll-store'
 
 const COUNT = 520
 const PALETTE = [
-  new THREE.Color('#ffd76a'),
-  new THREE.Color('#22f0ff'),
-  new THREE.Color('#ff2d95'),
-  new THREE.Color('#ffffff'),
-  new THREE.Color('#8b5cff'),
+  new THREE.Color('#E9C46A'),
+  new THREE.Color('#2A9D8F'),
+  new THREE.Color('#E76F51'),
+  new THREE.Color('#FFF3D6'),
+  new THREE.Color('#7CB342'),
 ]
 
 export function Fireworks() {

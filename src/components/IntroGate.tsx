@@ -16,7 +16,7 @@ export function IntroGate() {
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       style={{
         background:
-          'radial-gradient(ellipse at 50% 28%, rgba(139, 92, 255, 0.28), transparent 46%), #05010c',
+          'radial-gradient(ellipse at 50% 18%, rgba(231, 111, 81, 0.32), transparent 42%), radial-gradient(ellipse at 80% 80%, rgba(42, 157, 143, 0.22), transparent 40%), #07140c',
       }}
     >
       <motion.p
@@ -54,7 +54,7 @@ export function IntroGate() {
         type="button"
         disabled={!ready}
         onClick={enter}
-        className="shimmer pointer-events-auto rounded-full border border-amber-200/70 bg-gradient-to-r from-fuchsia-600 via-amber-300 to-cyan-300 px-10 py-3 text-sm font-semibold tracking-[0.28em] text-black uppercase shadow-[0_0_40px_rgba(255,215,106,0.45)] disabled:opacity-50"
+        className="shimmer pointer-events-auto rounded-full border border-amber-200/70 bg-gradient-to-r from-orange-500 via-yellow-300 to-teal-400 px-10 py-3 text-sm font-semibold tracking-[0.28em] text-black uppercase shadow-[0_0_40px_rgba(231,111,81,0.45)] disabled:opacity-50"
       >
         {ready ? 'Unwrap' : `Loading ${Math.min(100, Math.round(progress))}%`}
       </button>

@@ -92,7 +92,7 @@ export function Overlay() {
       })}
 
       <div
-        className="fixed bottom-0 left-0 z-30 h-[2px] bg-gradient-to-r from-fuchsia-500 via-amber-300 to-cyan-300"
+        className="fixed bottom-0 left-0 z-30 h-[2px] bg-gradient-to-r from-orange-500 via-amber-300 to-teal-400"
         style={{ width: `${Math.min(100, offset * 100)}%` }}
       />
 

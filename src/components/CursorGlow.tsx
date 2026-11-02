@@ -22,11 +22,11 @@ export function CursorGlow() {
     <>
       <div
         ref={ring}
-        className="pointer-events-none fixed top-0 left-0 z-90 hidden h-9 w-9 rounded-full border border-amber-200/80 shadow-[0_0_20px_rgba(255,215,106,0.55)] md:block"
+        className="pointer-events-none fixed top-0 left-0 z-90 hidden h-9 w-9 rounded-full border border-amber-200/80 shadow-[0_0_20px_rgba(231,111,81,0.55)] md:block"
       />
       <div
         ref={dot}
-        className="pointer-events-none fixed top-0 left-0 z-90 hidden h-1.5 w-1.5 rounded-full bg-cyan-300 md:block"
+        className="pointer-events-none fixed top-0 left-0 z-90 hidden h-1.5 w-1.5 rounded-full bg-teal-400 md:block"
       />
     </>
   )

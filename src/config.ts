@@ -69,9 +69,9 @@ export const letter = {
 }
 
 export const palette = {
-  gold: '#ffd76a',
-  cyan: '#22f0ff',
-  magenta: '#ff2d95',
-  violet: '#8b5cff',
-  ink: '#05010c',
+  gold: '#E9C46A',
+  teal: '#2A9D8F',
+  orange: '#E76F51',
+  lime: '#7CB342',
+  ink: '#07140C',
 }

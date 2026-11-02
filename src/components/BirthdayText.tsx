@@ -10,7 +10,7 @@ const FONT = '/fonts/helvetiker_bold.typeface.json'
 function Gold({ glow = 0.32 }: { glow?: number }) {
   return (
     <meshStandardMaterial
-      color="#f4d27a"
+      color="#E9C46A"
       metalness={0.95}
       roughness={0.16}
       emissive="#c4841d"
@@ -86,8 +86,8 @@ export function BirthdayText() {
         >
           {name}
           <meshStandardMaterial
-            color="#22f0ff"
-            emissive="#22f0ff"
+            color="#E76F51"
+            emissive="#E76F51"
             emissiveIntensity={2.2}
             toneMapped={false}
             metalness={0.3}

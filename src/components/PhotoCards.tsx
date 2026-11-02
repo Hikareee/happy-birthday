@@ -88,7 +88,7 @@ function PhotoCard({
     >
       <mesh position={[0, 0, -0.045]} castShadow>
         <boxGeometry args={[w + 0.16, h + 0.16, 0.09]} />
-        <meshStandardMaterial color="#f4d27a" metalness={0.95} roughness={0.22} envMapIntensity={1.6} />
+        <meshStandardMaterial color="#E9C46A" metalness={0.95} roughness={0.22} envMapIntensity={1.6} />
       </mesh>
       <mesh position={[0, 0, -0.09]}>
         <boxGeometry args={[w + 0.08, h + 0.08, 0.04]} />
