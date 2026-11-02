@@ -24,7 +24,7 @@ const copy: Section[] = [
     gold: false,
   })),
   {
-    kicker: '06 — Ritual',
+    kicker: `${String(photos.length + 1).padStart(2, '0')} — Ritual`,
     title: 'Make a wish',
     body: 'Click the cake. Blow the candles. Unlock fireworks. This year is already yours.',
     gold: true,

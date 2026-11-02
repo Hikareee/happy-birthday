@@ -32,11 +32,12 @@ function PhotoCard({
     const u = scrollState.offset * scrollMax
     const time = state.clock.elapsedTime
     const slots = [
-      [-3.6, 0.85, -1.2],
-      [3.6, 0.85, -1.2],
-      [-3.8, -0.75, -1.85],
-      [3.8, -0.75, -1.85],
-      [0, -1.35, -2.25],
+      [-3.6, 0.95, -1.2],
+      [3.6, 0.95, -1.2],
+      [-3.9, -0.15, -1.7],
+      [3.9, -0.15, -1.7],
+      [-3.5, -1.2, -2.1],
+      [3.5, -1.2, -2.1],
     ]
     const slot = slots[index] ?? [0, 0, -2]
     orbit.set(
